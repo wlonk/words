@@ -9,41 +9,47 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Adding model 'Language'
-        db.create_table(u'words_language', (
+        db.create_table(u'wordlist_language', (
             ('iso', self.gf('django.db.models.fields.CharField')(max_length=6, primary_key=True)),
         ))
-        db.send_create_signal(u'words', ['Language'])
+        db.send_create_signal(u'wordlist', ['Language'])
 
         # Adding model 'Word'
-        db.create_table(u'words_word', (
+        db.create_table(u'wordlist_word', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('language', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['words.Language'])),
+            ('language', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['wordlist.Language'])),
             ('value', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('profane', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
-        db.send_create_signal(u'words', ['Word'])
+        db.send_create_signal(u'wordlist', ['Word'])
+
+        # Adding unique constraint on 'Word', fields ['language', 'value']
+        db.create_unique(u'wordlist_word', ['language_id', 'value'])
 
 
     def backwards(self, orm):
+        # Removing unique constraint on 'Word', fields ['language', 'value']
+        db.delete_unique(u'wordlist_word', ['language_id', 'value'])
+
         # Deleting model 'Language'
-        db.delete_table(u'words_language')
+        db.delete_table(u'wordlist_language')
 
         # Deleting model 'Word'
-        db.delete_table(u'words_word')
+        db.delete_table(u'wordlist_word')
 
 
     models = {
-        u'words.language': {
-            'Meta': {'object_name': 'Language'},
+        u'wordlist.language': {
+            'Meta': {'ordering': "('iso',)", 'object_name': 'Language'},
             'iso': ('django.db.models.fields.CharField', [], {'max_length': '6', 'primary_key': 'True'})
         },
-        u'words.word': {
-            'Meta': {'object_name': 'Word'},
+        u'wordlist.word': {
+            'Meta': {'ordering': "('language', 'value')", 'unique_together': "(('language', 'value'),)", 'object_name': 'Word'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'language': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['words.Language']"}),
+            'language': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['wordlist.Language']"}),
             'profane': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'value': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         }
     }
 
-    complete_apps = ['words']
+    complete_apps = ['wordlist']

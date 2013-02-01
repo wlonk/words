@@ -19,3 +19,6 @@ build
 
 # Foreman environment files
 .env
+
+# SQL files
+*.sql
