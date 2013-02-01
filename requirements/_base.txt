@@ -1,5 +1,9 @@
 https://www.djangoproject.com/download/1.5c1/tarball/
 bpython==0.12
+dj-database-url==0.2.1
 django-braces==0.2.1
 django-model-utils==1.1.0
 South==0.7.6
+djangorestframework==2.1.17
+psycopg2==2.4.6
+python-memcached==1.48

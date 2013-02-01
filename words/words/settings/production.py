@@ -5,6 +5,10 @@ from os import environ
 
 from base import *
 
+INSTALLED_APPS += (
+    'gunicorn',
+)
+
 # Normally you should not import ANYTHING from Django directly
 # into your settings, but ImproperlyConfigured is an exception.
 from django.core.exceptions import ImproperlyConfigured
@@ -45,14 +49,14 @@ SERVER_EMAIL = EMAIL_HOST_USER
 ########## END EMAIL CONFIGURATION
 
 
-########## DATABASE CONFIGURATION
-DATABASES = {}
-########## END DATABASE CONFIGURATION
-
-
 ########## CACHE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#caches
-CACHES = {}
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
 ########## END CACHE CONFIGURATION
 
 

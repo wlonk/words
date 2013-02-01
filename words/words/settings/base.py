@@ -1,6 +1,7 @@
 """Common settings and globals."""
 
-
+import getpass
+import dj_database_url
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 
@@ -33,7 +34,7 @@ TEMPLATE_DEBUG = DEBUG
 ########## MANAGER CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = (
-    ('Your Name', 'your_email@example.com'),
+    ('Kit La Touche', 'kit@transneptune.net'),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -43,22 +44,17 @@ MANAGERS = ADMINS
 
 ########## DATABASE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
-    }
-}
+current_user = getpass.getuser()
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(
+    default='postgres://%s@localhost/words' % current_user
+)
 ########## END DATABASE CONFIGURATION
 
 
 ########## GENERAL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#time-zone
-TIME_ZONE = 'America/Los_Angeles'
+TIME_ZONE = 'America/Denver'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = 'en-us'
@@ -109,7 +105,7 @@ STATICFILES_FINDERS = (
 ########## SECRET CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key only used for development and testing.
-SECRET_KEY = r"kiahg72v(dr40e$e5f2@vvfxz4*^d9*-s3+(5lxu5vnr(24ekl"
+SECRET_KEY = "eiph3aCh5uushai(Qu4ji2Efich3et5aixai7Jeo4Zeeli`pae"
 ########## END SECRET CONFIGURATION
 
 
@@ -187,10 +183,12 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     # Database migration helpers:
     'south',
+    'rest_framework',
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
+    'wordlist',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -235,3 +233,8 @@ LOGGING = {
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = 'wsgi.application'
 ########## END WSGI CONFIGURATION
+
+
+########## WORDS CONFIGURATION
+MAX_WORDS = 10
+########## END WORDS CONFIGURATION
