@@ -1,6 +1,5 @@
 """Common settings and globals."""
 
-import getpass
 import dj_database_url
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
@@ -44,10 +43,9 @@ MANAGERS = ADMINS
 
 ########## DATABASE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
-current_user = getpass.getuser()
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(
-    default='postgres://%s@localhost/words' % current_user
+    default='postgres://localhost/words'
 )
 ########## END DATABASE CONFIGURATION
 
