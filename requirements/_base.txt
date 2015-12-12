@@ -1,4 +1,4 @@
-https://www.djangoproject.com/download/1.5c1/tarball/
+Django==1.9
 bpython==0.12
 dj-database-url==0.2.1
 django-braces==0.2.1
